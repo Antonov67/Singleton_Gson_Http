@@ -14,6 +14,8 @@ public class Main {
     public static final String PATH1 = "https://jsonplaceholder.typicode.com/albums";
     public static final String PATH2 = "https://jsonplaceholder.typicode.com/users";
 
+    public static final String PATH3 = "https://jsonplaceholder.typicode.com/comments?postId=1";
+
 
     public static void main(String[] args) {
         try {
@@ -36,18 +38,30 @@ public class Main {
             connection.setReadTimeout(5000);
             ConnectionManager.getInstance().registerConnection(2, connection);
 
+            //третье соединение
+            url = new URL(PATH3);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(5000);
+            ConnectionManager.getInstance().registerConnection(3, connection);
+
             Gson gson = new Gson();
             Album[] albums = gson.fromJson(ConnectionManager.getInstance().getResponseContent(1).toString(),Album[].class);
            // System.out.println(Arrays.toString(albums));
             User[] users = gson.fromJson(ConnectionManager.getInstance().getResponseContent(2).toString(),User[].class);
             //System.out.println(Arrays.toString(users));
             System.out.println(users[0]);
+            Post[] posts = gson.fromJson(ConnectionManager.getInstance().getResponseContent(3).toString(),Post[].class);
+            System.out.println(posts[0]);
 
             System.out.println(ConnectionManager.getInstance().getCountActiveConnections());
 
             ConnectionManager.getInstance().disconectConnection(1);
             System.out.println(ConnectionManager.getInstance().getCountActiveConnections());
             ConnectionManager.getInstance().disconectConnection(2);
+            System.out.println(ConnectionManager.getInstance().getCountActiveConnections());
+            ConnectionManager.getInstance().disconectConnection(3);
             System.out.println(ConnectionManager.getInstance().getCountActiveConnections());
 
 
