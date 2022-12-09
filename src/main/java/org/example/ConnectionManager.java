@@ -11,7 +11,7 @@ public class ConnectionManager {
 
     private Map<Integer, HttpURLConnection> connections = new HashMap<>();
     private static ConnectionManager instance;
-    private ConnectionManager(){};
+    private ConnectionManager(){}
     public static ConnectionManager getInstance(){
         if (instance == null){
             instance = new ConnectionManager();
@@ -22,7 +22,11 @@ public class ConnectionManager {
         connections.put(id, connection);
     }
     public void disconectConnection(Integer id){
-        connections.get(id).disconnect();
+        HttpURLConnection connection = connections.get(id);
+        if (connection != null){
+            connection.disconnect();
+            connections.remove(id);
+        }
     }
 
     public StringBuffer getResponseContent(Integer id){
@@ -50,6 +54,10 @@ public class ConnectionManager {
             throw new RuntimeException(e);
         }
         return responseContent;
+    }
+
+    public int getCountActiveConnections(){
+        return connections.size();
     }
 
 }
