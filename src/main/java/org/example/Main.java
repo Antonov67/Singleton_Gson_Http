@@ -2,6 +2,8 @@ package org.example;
 
 import com.google.gson.Gson;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -70,6 +72,17 @@ public class Main {
         } catch (ProtocolException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        //прочитаем из файла
+
+        try {
+            FileReader reader = new FileReader("test.json");
+            Gson gson = new Gson();
+            Root root = gson.fromJson(reader,Root.class);
+            System.out.println(root);
+        } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
 

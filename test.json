@@ -1,0 +1,21 @@
+{
+  "name": "Test file",
+  "people_list":[
+    {
+      "name": "Ivan",
+      "age": 18
+    },
+    {
+      "name": "Stepan",
+      "age": 30
+    },
+    {
+      "name": "Max",
+      "age": 50
+    },
+    {
+      "name": "Sveta",
+      "age": 20
+    }
+  ]
+}
