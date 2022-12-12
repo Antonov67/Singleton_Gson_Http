@@ -49,13 +49,33 @@ public class Main {
             ConnectionManager.getInstance().registerConnection(3, connection);
 
             Gson gson = new Gson();
-            Album[] albums = gson.fromJson(ConnectionManager.getInstance().getResponseContent(1).toString(),Album[].class);
-           // System.out.println(Arrays.toString(albums));
-            User[] users = gson.fromJson(ConnectionManager.getInstance().getResponseContent(2).toString(),User[].class);
-            //System.out.println(Arrays.toString(users));
-            System.out.println(users[0]);
-            Post[] posts = gson.fromJson(ConnectionManager.getInstance().getResponseContent(3).toString(),Post[].class);
-            System.out.println(posts[0]);
+            try {
+                Album[] albums = gson.fromJson(ConnectionManager.getInstance().getResponseContent(1).toString(),Album[].class);
+                // System.out.println(Arrays.toString(albums));
+            }catch (Exception e){
+                System.out.println("Ошибка: " + e.getMessage());
+                System.out.println("Ответ сервера: " + ConnectionManager.getInstance().getServerAnswerForConnection(1));
+            }
+
+            try {
+                User[] users = gson.fromJson(ConnectionManager.getInstance().getResponseContent(2).toString(),User[].class);
+                //System.out.println(Arrays.toString(users));
+                System.out.println(users[0]);
+            }catch (Exception e){
+                System.out.println("Ошибка: " + e.getMessage());
+                System.out.println("Ответ сервера: " + ConnectionManager.getInstance().getServerAnswerForConnection(2));
+            }
+
+            try {
+                Post[] posts = gson.fromJson(ConnectionManager.getInstance().getResponseContent(3).toString(),Post[].class);
+                System.out.println(posts[0]);
+            }catch (Exception e){
+                System.out.println("Ошибка: " + e.getMessage());
+                System.out.println("Ответ сервера: " + ConnectionManager.getInstance().getServerAnswerForConnection(3));
+            }
+
+
+
 
             System.out.println(ConnectionManager.getInstance().getCountActiveConnections());
 

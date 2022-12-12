@@ -10,6 +10,7 @@ import java.util.Map;
 public class ConnectionManager {
 
     private Map<Integer, HttpURLConnection> connections = new HashMap<>();
+    private Map<Integer, Integer> serverAnswers = new HashMap<>();
     private static ConnectionManager instance;
     private ConnectionManager(){}
     public static ConnectionManager getInstance(){
@@ -26,6 +27,7 @@ public class ConnectionManager {
         if (connection != null){
             connection.disconnect();
             connections.remove(id);
+            serverAnswers.remove(id);
         }
     }
 
@@ -37,6 +39,7 @@ public class ConnectionManager {
         StringBuffer responseContent = new StringBuffer();
         try {
             int status = connections.get(id).getResponseCode();
+            serverAnswers.put(id, status);
             if (status > 299) {
                 reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
                 while ((line = reader.readLine()) != null){
@@ -58,6 +61,10 @@ public class ConnectionManager {
 
     public int getCountActiveConnections(){
         return connections.size();
+    }
+
+    public int getServerAnswerForConnection(Integer id){
+        return serverAnswers.get(id);
     }
 
 }
